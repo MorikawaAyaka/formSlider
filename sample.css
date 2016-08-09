@@ -1,0 +1,21 @@
+.slider {
+  width: 500px;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider .slideSet {
+  position: absolute;
+}
+
+.slider .slide {
+  width: 498px;
+  height: 198px;
+  border: 1px solid #f00;
+  float: left;
+}
+
+#result1,#result2,#result3 {
+  color: #ff0000;
+}
