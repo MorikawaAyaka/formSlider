@@ -1,47 +1,69 @@
 (function() {
-  var slideWidth = $('.slide').outerWidth(); // .slideの幅を取得して代入
-  var slideNum = $('.slide').length; // .slideの数を取得して代入
-  var slideSetWidth = slideWidth * slideNum; // .slideの幅×数で求めた値を代入
-  $('.slideSet').css('width', slideSetWidth); // .slideSetのスタイルシートにwidth: slideSetWidthを指定
+  var cnt = 1; // 現在地を示す変数
+  var slideNum = $('.slide').length; //slideの数
+  var radioNum = 9;
 
-  var cnt = 0; // 現在地を示す変数
+  for(var i = 2;i <= slideNum;i++){
+    $('#d'+i).css('display','none');
+  }
+  $('.submit').css('display','none');
+  $('.buttonPrevious').css('display','none');
 
-  var sliding = function() {
-    // cntが0以下だったら
-    if (cnt < 0) {
-      cnt = 0;
+  var validate = function(){
+    var message = 'Please select an option';
 
-    } else if (cnt >= slideNum-1) {
-      cnt=slideNum-1;
-    }
-
-    $('.slideSet').stop().animate({
-      left: cnt * -slideWidth
-    });
   }
 
   // 前へボタンが押されたとき
-  $('.slider-prev').click(function() {
+  $('.buttonPrevious').click(function() {
+    $('#d'+cnt).toggle(false);
+    $('#d'+(cnt-1)).toggle(true);
     cnt--;
-    sliding();
+
+    if(cnt == slideNum){
+      $('.buttonNext').toggle(false);
+      $('.submit').toggle(true);
+    }else{
+      $('.buttonNext').toggle(true);
+      $('.submit').toggle(false);
+    }
+
+    if(cnt == 1){
+      $('.buttonPrevious').toggle(false);
+    }else{
+      $('.buttonPrevious').toggle(true);
+    }
+
   });
 
   // 次へボタンが押されたとき
-  $('.slider-next').click(function(){
-    var ch_radio = $('#d'+(cnt+1)).find('input[type="radio"]:checked').size();
-    var radio = $('.group'+(cnt+1)).size();
+  $('.buttonNext').click(function(){
+    //チェックされているラジオボタンの数を数える
+   var checked_radio_count = $(".group"+cnt).find('input[type="radio"]:checked').size();
+   //ラジオボタンが入っているdivの数を数える
+   var radio_count = $(".group"+cnt).size();
 
-    if (ch_radio == radio) {
-      document.getElementById('result'+(cnt+1)).innerHTML = "";
+   if(checked_radio_count == radio_count){
+     $('#d'+cnt).toggle(false);
+     $('#d'+(cnt+1)).toggle(true);
       cnt++;
-      sliding();
-    }else{
-      document.getElementById('result'+(cnt+1)).innerHTML = "選択されていません";
-    }
+  }else{
+     $('#q1').css("background-color","#FFB6C1");
 
-    if(cnt == slideNum-1){
-      $(this).get(0).type='submit';
-    }
+}
+  if(cnt == slideNum){
+    $('.buttonNext').toggle(false);
+    $('.submit').toggle(true);
+  }else{
+    $('.buttonNext').toggle(true);
+    $('.submit').toggle(false);
+  }
+  if(cnt == 1){
+    $('.buttonPrevious').toggle(false);
+  }else{
+    $('.buttonPrevious').toggle(true);
+  }
+
   });
 
 }());
